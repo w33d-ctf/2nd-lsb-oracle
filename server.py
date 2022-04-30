@@ -1,4 +1,3 @@
-from fileinput import filename
 from Crypto.PublicKey import RSA
 import socketserver, sys
 from Crypto.Util.number import bytes_to_long
@@ -25,13 +24,14 @@ please input your action
 
 class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
     def handle(self):
+        logging.info(f"peer {self.client_address} has connected")
         while True:
             try:
                 self.request.send(banner.encode())
                 indata:str = self.request.recv(1024).decode().strip()
                 logging.info('recv: ' + indata)
                 if indata == '1':
-                    self.request.send("please visit my github for source code\n".encode())
+                    self.request.send("please visit github for source code: https://github.com/w33d-ctf/2nd-lsb-oracle\n".encode())
                 elif indata == '2':
                     indata = int(self.request.recv(10240).decode().strip())
                     pt = pow(indata, key.d, key.n)
