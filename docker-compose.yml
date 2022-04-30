@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  lsb-oracle:
+    build: .
+    volumes:
+      - $PWD:/server
+    ports:
+      - "7000:7000"
+    entrypoint: ["/bin/sh", "/server/entry.sh"]
+    
